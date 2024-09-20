@@ -1,0 +1,35 @@
+---
+# file: group_vars/multipasstest
+ansible_ssh_private_key_file: ~/.ssh/ansibleserver
+ansible_user: ubuntu
+
+unraid_ip: 192.168.1.9
+
+# grog.package
+package_list:
+  - bash-completion
+  - tmux
+  - openssh-server
+  - ncdu #Storage lookup tool. Use by running: ncdu /
+  - cockpit
+  - htop
+  - nmon #System Monitoring
+  - iftop #Display network traffic and bandwith usage. Run: sudo iftop -i eth0
+  - iptraf #Like iftop. Run as sudo
+  - mc #midnight commander. Visual shell for file browsing
+  - neofetch
+  - nano
+  - rsync
+  - tree
+  - wget
+  - git
+  - curl
+  - apt-transport-https
+  - ca-certificates
+  - software-properties-common
+  - python3-pip
+  - virtualenv
+  - python3-setuptools
+  - autofs
+  - nfs-common
+  

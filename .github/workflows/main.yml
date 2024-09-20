@@ -1,0 +1,22 @@
+name: Update Ansible Server when changes are made
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy-via-tailscale:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Connect Tailscale
+        uses: tailscale/github-action@v2
+        with:
+          oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+          oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
+          tags: tag:ci
+      - name: Deploy - Git pull Ansible repo
+        run: |
+          ssh -o "StrictHostKeyChecking no" ansible@ansibleserver "
+            cd ~/AnsibleServer
+            git pull
+          "

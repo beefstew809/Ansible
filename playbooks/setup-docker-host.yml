@@ -1,0 +1,28 @@
+---
+# Setup-docker-host.yml playbook
+- name: Docker System Setup
+  hosts: dockerhosts
+  vars_files: 'vault.yml'
+  become: true
+
+  tasks: 
+    - name: Set Hostname of System
+      ansible.builtin.hostname:
+        name: "{{ hostname }}"
+    - name: Update all packages to their latest version
+      ansible.builtin.apt:
+        name: "*"
+        state: latest
+
+  roles:
+    - GROG.package # Package_list must be defined in the group_vars folder
+    - name: artis3n.tailscale
+      vars:
+        tailscale_authkey: "{{ tailscale_key }}"
+        tailscale_args: "--ssh"
+    - geerlingguy.docker
+    - configure-autofs
+    - setup-dockerhealth-systemd-service
+
+# Run with: ansible-playbook -b playbooks/setup-docker-host.yml --limit dockerhosts --ask-vault-pass
+

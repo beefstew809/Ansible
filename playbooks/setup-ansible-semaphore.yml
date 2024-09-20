@@ -1,0 +1,22 @@
+---
+# Setup-ansible-semaphore.yml playbook
+- name: Docker System Setup
+  hosts: ansiblesemaphore
+  vars_files: vault.yml
+  become: true
+
+  tasks: 
+    - name: Update all packages to their latest version
+      ansible.builtin.apt:
+        name: "*"
+        state: latest
+
+  roles:
+    - GROG.package # Package_list must be defined in the group_vars folder
+    - name: artis3n.tailscale
+      vars:
+        tailscale_authkey: "{{ tailscale_key }}"
+        tailscale_args: "--ssh"
+
+# Run with: ansible-playbook -b playbooks/setup-ansible-semaphore.yml --limit ansiblesemaphore --ask-vault-pass
+
